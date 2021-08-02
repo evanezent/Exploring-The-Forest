@@ -61,6 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -68,46 +69,80 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+        appBar: AppBar(
+          // Here we take the value from the MyHomePage object that was created by
+          // the App.build method, and use it to set our appbar title.
+          title: Text("COBA"),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+        body: Container(
+          width: size.width,
+          height: size.height,
+          child: CustomPaint(
+            painter: CurvePainter(),
+          ),
+        )
+        // Center(
+        //   // Center is a layout widget. It takes a single child and positions it
+        //   // in the middle of the parent.
+        //   child: Column(
+        //     // Column is also a layout widget. It takes a list of children and
+        //     // arranges them vertically. By default, it sizes itself to fit its
+        //     // children horizontally, and tries to be as tall as its parent.
+        //     //
+        //     // Invoke "debug painting" (press "p" in the console, choose the
+        //     // "Toggle Debug Paint" action from the Flutter Inspector in Android
+        //     // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
+        //     // to see the wireframe for each widget.
+        //     //
+        //     // Column has various properties to control how it sizes itself and
+        //     // how it positions its children. Here we use mainAxisAlignment to
+        //     // center the children vertically; the main axis here is the vertical
+        //     // axis because Columns are vertical (the cross axis would be
+        //     // horizontal).
+        //     mainAxisAlignment: MainAxisAlignment.center,
+        //     children: <Widget>[
+        //       Text(
+        //         'You have pushed the button this many times:',
+        //       ),
+        //       Text(
+        //         '$_counter',
+        //         style: Theme.of(context).textTheme.headline4,
+        //       ),
+        //     ],
+        //   ),
+        // ),
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: _incrementCounter,
+        //   tooltip: 'Increment',
+        //   child: Icon(Icons.add),
+        // ), // This trailing comma makes auto-formatting nicer for build methods.
+        );
   }
 }
+
+class CurvePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    var paint = Paint();
+    paint.color = Colors.grey;
+    paint.style = PaintingStyle.fill;
+
+    var path = Path();
+
+    path.moveTo(0, size.height * 0.3);
+    path.quadraticBezierTo(size.width * 0.06, size.height * 0.1,
+        size.width * 0.4, size.height * 0.2); 
+        path.quadraticBezierTo(size.width * 0.41, size.height * 0.2,
+        size.width, size.height * 0.35); 
+    path.lineTo(size.width, size.height);
+    path.lineTo(0, size.height);
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return true;
+  }
+}
+
