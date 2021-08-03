@@ -13,3 +13,15 @@ const blue_bold_30 =
 
 const black_semi_16 =
     TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16);
+
+const white_800_20 =
+    TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 20);
+
+const white_800_30 =
+    TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 30);
+
+const white_normal_14 = TextStyle(color: Colors.white, fontSize: 14);
+const white_normal_12 = TextStyle(color: Colors.white, fontSize: 12);
+const orange_600_14 = TextStyle(color: Colors.orange, fontSize: 14, fontWeight: FontWeight.w800);
+const red_600_14 = TextStyle(color: Colors.red, fontSize: 14, fontWeight: FontWeight.w800);
+const green_600_14 = TextStyle(color: Colors.greenAccent, fontSize: 14, fontWeight: FontWeight.w800);
