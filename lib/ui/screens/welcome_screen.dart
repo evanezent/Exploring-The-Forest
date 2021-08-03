@@ -68,6 +68,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                             ),
                             child: TextFormField(
                               controller: emailController,
+                              keyboardType: TextInputType.emailAddress,
                               onChanged: (value) {
                                 setState(() {
                                   _emailValidator = value.length != 0;
