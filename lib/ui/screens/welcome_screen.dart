@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:register/ui/components/long_button.dart';
 import 'package:register/ui/components/shape_background.dart';
+import 'package:register/ui/screens/create_password_screen.dart';
 import 'package:register/utils/constants.dart';
 
 class WelcomScreen extends StatefulWidget {
@@ -97,13 +98,16 @@ class _WelcomScreenState extends State<WelcomScreen> {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 30),
                         child: LongButton(
-                            bgColor: _emailValidator ? custom_blue: custom_blue_disable,
+                            bgColor: _emailValidator
+                                ? custom_blue
+                                : custom_blue_disable,
                             textColor: Colors.white,
                             loading: false,
                             width: size.width,
                             title: "Next",
                             onClick: () {
-                              print("KLIK");
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => CreatePaswordScreen()));
                             }),
                       )
                     ],
