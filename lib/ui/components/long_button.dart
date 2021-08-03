@@ -26,6 +26,7 @@ class LongButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         padding: EdgeInsets.all(8.0),
         primary: bgColor,
+        elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:register/ui/components/circle-timeline.dart';
+import 'package:register/ui/components/long_button.dart';
+import 'package:register/ui/components/password-requirement.dart';
 import 'package:register/ui/components/timeline.dart';
 import 'package:register/utils/constants.dart';
 
@@ -16,6 +18,7 @@ class _CreatePaswordScreenState extends State<CreatePaswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -83,9 +86,9 @@ class _CreatePaswordScreenState extends State<CreatePaswordScreen> {
                     children: [
                   TextSpan(text: "Very Weak", style: orange_600_14)
                 ])),
-                SizedBox(height: 40),
+            SizedBox(height: 60),
             Row(
-              mainAxisAlignment:MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 PasswordRequirement(
                   complete: false,
@@ -108,38 +111,22 @@ class _CreatePaswordScreenState extends State<CreatePaswordScreen> {
                   name: "Characters",
                 ),
               ],
-            )
+            ),
+            Padding(
+                padding: const EdgeInsets.only(bottom: 30),
+                child: LongButton(
+                    bgColor: custom_blue_disable,
+                    textColor: Colors.white,
+                    loading: false,
+                    width: size.width,
+                    title: "Next",
+                    onClick: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => CreatePaswordScreen()));
+                    })),
           ],
         ),
       ),
-    );
-  }
-}
-
-class PasswordRequirement extends StatelessWidget {
-  const PasswordRequirement(
-      {Key? key,
-      required this.complete,
-      required this.text,
-      required this.name})
-      : super(key: key);
-
-  final bool complete;
-  final String text, name;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        !complete
-            ? Text("$text", style: white_800_30)
-            : Icon(
-                Icons.check_circle_rounded,
-                color: custom_green,
-                size: 36,
-              ),
-        Text("$name", style: white_normal_12),
-      ],
     );
   }
 }
