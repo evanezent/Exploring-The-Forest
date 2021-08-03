@@ -112,20 +112,21 @@ class _CreatePaswordScreenState extends State<CreatePaswordScreen> {
                 ),
               ],
             ),
-            Padding(
-                padding: const EdgeInsets.only(bottom: 30),
-                child: LongButton(
-                    bgColor: custom_blue_disable,
-                    textColor: Colors.white,
-                    loading: false,
-                    width: size.width,
-                    title: "Next",
-                    onClick: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => CreatePaswordScreen()));
-                    })),
           ],
         ),
+      ),
+      bottomNavigationBar: Container(
+        padding: EdgeInsets.only(bottom: 40, right: 20, left: 20),
+        child: LongButton(
+            bgColor: custom_blue_disable,
+            textColor: Colors.white,
+            loading: false,
+            width: size.width,
+            title: "Next",
+            onClick: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => CreatePaswordScreen()));
+            }),
       ),
     );
   }
