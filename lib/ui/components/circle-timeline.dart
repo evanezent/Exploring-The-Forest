@@ -10,11 +10,16 @@ class CircleTimeline extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-      backgroundColor: active ? custom_blue : Colors.white,
-      child: Text(
-        '$text',
-        style:
-            TextStyle(color: active ? Colors.white : custom_blue, fontSize: 20),
+      radius: 24,
+      backgroundColor: Colors.white,
+      child: CircleAvatar(
+        backgroundColor: active ? custom_blue : Colors.white,
+        radius: 20,
+        child: Text(
+          '$text',
+          style:
+              TextStyle(color: active ? Colors.white : custom_blue, fontSize: 20),
+        ),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:register/ui/components/circle-timeline.dart';
+import 'package:register/ui/components/timeline.dart';
 import 'package:register/utils/constants.dart';
 
 class CreatePaswordScreen extends StatefulWidget {
@@ -16,19 +17,22 @@ class _CreatePaswordScreenState extends State<CreatePaswordScreen> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: custom_blue,
+          centerTitle: false,
           title: Text(
             "Create Password",
             style: TextStyle(
                 color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
           ),
         ),
+        backgroundColor: custom_blue,
         body: ListView(
           children: [
-            CircleTimeline(
-              active: false,
-              text: '1',
+            Timeline(
+              index: 2,
             )
           ],
         ));
   }
 }
+
+
