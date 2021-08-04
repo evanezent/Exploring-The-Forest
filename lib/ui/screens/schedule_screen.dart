@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:register/ui/components/circle-ripple.dart';
 import 'package:register/ui/components/circle-timeline.dart';
+import 'package:register/ui/components/curve-wave.dart';
 import 'package:register/ui/components/long_button.dart';
 import 'package:register/ui/components/password-requirement.dart';
 import 'package:register/ui/components/timeline.dart';
@@ -12,14 +14,58 @@ class ScheduleScreen extends StatefulWidget {
   _ScheduleScreenState createState() => _ScheduleScreenState();
 }
 
-class _ScheduleScreenState extends State<ScheduleScreen> {
+class _ScheduleScreenState extends State<ScheduleScreen>
+    with TickerProviderStateMixin {
   TextEditingController passwordController = TextEditingController();
-  TextEditingController goalController = TextEditingController();
-  bool _goalValidator = false;
   bool hide = true;
   String choosedIncome = "0";
   String choosedExpense = "0";
-  FocusNode goalNode = new FocusNode();
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 2000),
+      vsync: this,
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  Widget rippleComponents() {
+    return Center(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(100),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: RadialGradient(
+              colors: <Color>[
+                custom_blue,
+                Color.lerp(custom_blue, Colors.black, .05)!
+              ],
+            ),
+          ),
+          child: ScaleTransition(
+              scale: Tween(begin: 0.95, end: 1.0).animate(
+                CurvedAnimation(
+                  parent: _animationController,
+                  curve: CurveWave(),
+                ),
+              ),
+              child: Icon(
+                Icons.speaker_phone,
+                size: 44,
+              )),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +76,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         backgroundColor: custom_blue,
         centerTitle: false,
         title: Text(
-          "Personal Information",
+          "Create Account",
           style: TextStyle(
               color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
         ),
@@ -49,7 +95,19 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             Text(
                 "Please fill in the information below and your goal for digital saving.",
                 style: white_normal_14),
-            SizedBox(height: 30), 
+            SizedBox(height: 30),
+            Center(
+                child: CustomPaint(
+              painter: CirclePainter(
+                _animationController,
+                color: custom_blue,
+              ),
+              child: SizedBox(
+                width: 100,
+                height: 100,
+                child: rippleComponents(),
+              ),
+            )),
             Container(
               height: 50,
               margin: EdgeInsets.only(top: 20),

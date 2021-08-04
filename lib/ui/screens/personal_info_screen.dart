@@ -3,6 +3,7 @@ import 'package:register/ui/components/circle-timeline.dart';
 import 'package:register/ui/components/long_button.dart';
 import 'package:register/ui/components/password-requirement.dart';
 import 'package:register/ui/components/timeline.dart';
+import 'package:register/ui/screens/schedule_screen.dart';
 import 'package:register/utils/constants.dart';
 
 class PersonalInformationScreen extends StatefulWidget {
@@ -187,7 +188,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
             title: "Next",
             onClick: () {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => PersonalInformationScreen()));
+                  builder: (context) => ScheduleScreen()));
             }),
       ),
     );
