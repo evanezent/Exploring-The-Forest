@@ -29,6 +29,7 @@ class _ScheduleScreenState extends State<ScheduleScreen>
   DateTime selectedDate = DateTime.now();
 
   String choosedDate = "- Choosed Date -";
+  String choosedTime = "- Choosed Time -";
 
   @override
   void initState() {
@@ -147,7 +148,9 @@ class _ScheduleScreenState extends State<ScheduleScreen>
             SizedBox(height: 30),
             InkWell(
               splashColor: Colors.transparent,
-              onTap: () => selectedDate,
+              onTap: () {
+                selectDate(context);
+              },
               child: Container(
                 height: 50,
                 margin: EdgeInsets.only(top: 20),
@@ -177,32 +180,35 @@ class _ScheduleScreenState extends State<ScheduleScreen>
                 ),
               ),
             ),
-            Container(
-              height: 50,
-              margin: EdgeInsets.only(top: 20),
-              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Time",
-                    style: grey_normal_12,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "- Choose Time -",
-                        style: black_semi_16,
-                      ),
-                      Icon(Icons.arrow_drop_down, color: Colors.grey)
-                    ],
-                  )
-                ],
+            InkWell(
+              onTap: () => selectDate(context, type: "time"),
+              child: Container(
+                height: 50,
+                margin: EdgeInsets.only(top: 20),
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Time",
+                      style: grey_normal_12,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "$choosedTime",
+                          style: black_semi_16,
+                        ),
+                        Icon(Icons.arrow_drop_down, color: Colors.grey)
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
           ],
@@ -225,22 +231,22 @@ class _ScheduleScreenState extends State<ScheduleScreen>
   }
 
   // select date function
-  selectDate(BuildContext context) async {
+  void selectDate(BuildContext context, {String type = "date"}) async {
     final ThemeData theme = Theme.of(context);
     switch (theme.platform) {
       case TargetPlatform.android:
       case TargetPlatform.fuchsia:
       case TargetPlatform.linux:
       case TargetPlatform.windows:
-        return buildMaterialDatePicker(context);
+        return buildMaterialDatePicker(context, type: type);
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
-        return buildCupertinoDatePicker(context);
+        return buildCupertinoDatePicker(context, type: type);
     }
   }
 
   /// Android date picker
-  buildMaterialDatePicker(BuildContext context) async {
+  buildMaterialDatePicker(BuildContext context, {String type = "date"}) async {
     DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
@@ -250,31 +256,54 @@ class _ScheduleScreenState extends State<ScheduleScreen>
     if (picked != null && picked != selectedDate)
       setState(() {
         selectedDate = picked;
-        choosedDate = "${selectedDate.day} - ${selectedDate.month} - ${selectedDate.year}";
+        choosedDate =
+            "${selectedDate.day} - ${selectedDate.month} - ${selectedDate.year}";
       });
   }
 
   /// iOS date picker
-  buildCupertinoDatePicker(BuildContext context) {
+  buildCupertinoDatePicker(BuildContext context, {String type = "date"}) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext builder) {
           return Container(
             height: MediaQuery.of(context).copyWith().size.height / 3,
             color: Colors.white,
-            child: CupertinoDatePicker(
-              mode: CupertinoDatePickerMode.date,
-              onDateTimeChanged: (picked) {
-                if (picked != selectedDate)
-                  setState(() {
-                    selectedDate = picked;
-                    choosedDate = "${selectedDate.day} - ${selectedDate.month} - ${selectedDate.year}";
-                  });
-              },
-              initialDateTime: selectedDate,
-              minimumYear: 2021,
-              maximumYear: 2500,
-            ),
+            child: type == "time"
+                ? CupertinoDatePicker(
+                    mode: CupertinoDatePickerMode.time,
+                    onDateTimeChanged: (picked) { 
+                      if (picked != selectedDate) {
+                        String hour = picked.hour < 10
+                            ? "0${picked.hour}"
+                            : "${picked.hour}";
+                        String min = picked.minute < 10
+                            ? "0${picked.minute}"
+                            : "${picked.minute}";
+                        setState(() {
+                          selectedDate = picked;
+                          choosedTime = "$hour:$min";
+                        });
+                      }
+                    },
+                    initialDateTime: selectedDate,
+                    minimumYear: 2021,
+                    maximumYear: 2500,
+                  )
+                : CupertinoDatePicker(
+                    mode: CupertinoDatePickerMode.date,
+                    onDateTimeChanged: (picked) {
+                      if (picked != selectedDate)
+                        setState(() {
+                          selectedDate = picked;
+                          choosedDate =
+                              "${selectedDate.day} - ${selectedDate.month} - ${selectedDate.year}";
+                        });
+                    },
+                    initialDateTime: selectedDate,
+                    minimumYear: 2021,
+                    maximumYear: 2500,
+                  ),
           );
         });
   }
