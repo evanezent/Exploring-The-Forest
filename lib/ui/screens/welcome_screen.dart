@@ -73,10 +73,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                             RegExp regex = new RegExp(pattern);
                             setState(() {
                               _emailValidator = regex.hasMatch(val);
-                            });
-
-                            print(regex.hasMatch(val));
-                            print(val);
+                            }); 
                           }
                         },
                         style: TextStyle(
