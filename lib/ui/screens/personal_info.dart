@@ -20,6 +20,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
   bool hide = true;
   String choosedIncome = "0";
   String choosedExpense = "0";
+  FocusNode goalNode = new FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -52,12 +53,14 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
             SizedBox(height: 30),
             Container(
               height: 50,
-              margin: EdgeInsets.only(top: 40),
+              margin: EdgeInsets.only(top: 20),
+              padding: EdgeInsets.only(top: 6),
               decoration: BoxDecoration(
-                color: Colors.grey.withOpacity(0.2),
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: TextFormField(
+                focusNode: goalNode,
                 controller: goalController,
                 keyboardType: TextInputType.text,
                 onChanged: (value) {
@@ -68,21 +71,20 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
                 style:
                     TextStyle(color: Colors.grey, fontWeight: FontWeight.w500),
                 decoration: InputDecoration(
+                    focusColor: custom_blue,
                     labelText: "Goal for activation",
-                    contentPadding:
-                        EdgeInsets.only(bottom: 4, right: 8, left: 8),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: custom_blue, width: 1.0),
-                    ),
+                    labelStyle: TextStyle(color: goalNode.hasFocus ? custom_blue : Colors.grey),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    contentPadding: EdgeInsets.only(right: 8, left: 8, top: 10),
+                    focusedBorder:
+                        OutlineInputBorder(borderSide: BorderSide.none),
                     enabledBorder:
                         OutlineInputBorder(borderSide: BorderSide.none)),
               ),
             ),
-            SizedBox(height: 10),
             Container(
               height: 50,
-              margin: EdgeInsets.only(top: 40),
+              margin: EdgeInsets.only(top: 20),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
@@ -124,10 +126,9 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
                 },
               ),
             ),
-            SizedBox(height: 10),
             Container(
               height: 50,
-              margin: EdgeInsets.only(top: 40),
+              margin: EdgeInsets.only(top: 20),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
@@ -172,41 +173,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
                   });
                 },
               ),
-            ),
-            SizedBox(height: 15),
-            RichText(
-                text: TextSpan(
-                    text: "Complexity : ",
-                    style: white_normal_14,
-                    children: [
-                  TextSpan(text: "Very Weak", style: orange_600_14)
-                ])),
-            SizedBox(height: 60),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                PasswordRequirement(
-                  complete: false,
-                  text: "a",
-                  name: "Lowercase",
-                ),
-                PasswordRequirement(
-                  complete: false,
-                  text: "A",
-                  name: "Uppercase",
-                ),
-                PasswordRequirement(
-                  complete: false,
-                  text: "123",
-                  name: "Numeric",
-                ),
-                PasswordRequirement(
-                  complete: false,
-                  text: "9+",
-                  name: "Characters",
-                ),
-              ],
-            ),
+            ), 
           ],
         ),
       ),
