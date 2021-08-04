@@ -49,39 +49,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             Text(
                 "Please fill in the information below and your goal for digital saving.",
                 style: white_normal_14),
-            SizedBox(height: 30),
-            Container(
-              height: 50,
-              margin: EdgeInsets.only(top: 20),
-              padding: EdgeInsets.only(top: 6),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: TextFormField(
-                focusNode: goalNode,
-                controller: goalController,
-                keyboardType: TextInputType.text,
-                onChanged: (value) {
-                  setState(() {
-                    _goalValidator = value.length != 0;
-                  });
-                },
-                style:
-                    TextStyle(color: Colors.grey, fontWeight: FontWeight.w500),
-                decoration: InputDecoration(
-                    focusColor: custom_blue,
-                    labelText: "Goal for activation",
-                    labelStyle: TextStyle(
-                        color: goalNode.hasFocus ? custom_blue : Colors.grey),
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    contentPadding: EdgeInsets.only(right: 8, left: 8, top: 10),
-                    focusedBorder:
-                        OutlineInputBorder(borderSide: BorderSide.none),
-                    enabledBorder:
-                        OutlineInputBorder(borderSide: BorderSide.none)),
-              ),
-            ),
+            SizedBox(height: 30), 
             Container(
               height: 50,
               margin: EdgeInsets.only(top: 20),
