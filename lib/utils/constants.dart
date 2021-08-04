@@ -22,6 +22,7 @@ const white_800_30 =
 
 const white_normal_14 = TextStyle(color: Colors.white, fontSize: 14);
 const white_normal_12 = TextStyle(color: Colors.white, fontSize: 12);
+const grey_normal_12 = TextStyle(color: Colors.grey, fontSize: 12);
 const orange_600_14 = TextStyle(color: Colors.orange, fontSize: 14, fontWeight: FontWeight.w800);
 const red_600_14 = TextStyle(color: Colors.red, fontSize: 14, fontWeight: FontWeight.w800);
 const green_600_14 = TextStyle(color: Colors.greenAccent, fontSize: 14, fontWeight: FontWeight.w800);
