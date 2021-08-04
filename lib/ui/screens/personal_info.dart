@@ -3,17 +3,17 @@ import 'package:register/ui/components/circle-timeline.dart';
 import 'package:register/ui/components/long_button.dart';
 import 'package:register/ui/components/password-requirement.dart';
 import 'package:register/ui/components/timeline.dart';
-import 'package:register/ui/screens/personal_info.dart';
 import 'package:register/utils/constants.dart';
 
-class CreatePaswordScreen extends StatefulWidget {
-  const CreatePaswordScreen({Key? key}) : super(key: key);
+class PersonalInformationScreen extends StatefulWidget {
+  const PersonalInformationScreen({Key? key}) : super(key: key);
 
   @override
-  _CreatePaswordScreenState createState() => _CreatePaswordScreenState();
+  _PersonalInformationScreenState createState() =>
+      _PersonalInformationScreenState();
 }
 
-class _CreatePaswordScreenState extends State<CreatePaswordScreen> {
+class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
   TextEditingController passwordController = TextEditingController();
   bool hide = true;
 
@@ -37,12 +37,12 @@ class _CreatePaswordScreenState extends State<CreatePaswordScreen> {
         child: ListView(
           children: [
             Timeline(
-              index: 2,
+              index: 3,
             ),
             SizedBox(height: 30),
-            Text("Create Password", style: white_800_20),
+            Text("Personal Information", style: white_800_20),
             SizedBox(height: 6),
-            Text("Password will be used to login account",
+            Text("Please fill in the information below and your goal for digital saving.",
                 style: white_normal_14),
             SizedBox(height: 30),
             Container(
@@ -125,8 +125,8 @@ class _CreatePaswordScreenState extends State<CreatePaswordScreen> {
             width: size.width,
             title: "Next",
             onClick: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => PersonalInformationScreen()));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => PersonalInformationScreen()));
             }),
       ),
     );
