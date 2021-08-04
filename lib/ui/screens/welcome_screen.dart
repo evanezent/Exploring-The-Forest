@@ -66,18 +66,18 @@ class _WelcomScreenState extends State<WelcomScreen> {
                       child: TextFormField(
                         controller: emailController,
                         keyboardType: TextInputType.emailAddress,
-                        validator: (String? val) {
-                          String pattern =
-                              r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                          RegExp regex = new RegExp(pattern);
-                          setState(() {
-                            _emailValidator = regex.hasMatch(val!);
-                          });
-                        },
-                        onChanged: (value) {
-                          setState(() {
-                            _emailValidator = value.length != 0;
-                          });
+                        onChanged: (String? val) {
+                          if (val!.length > 6) {
+                            String pattern =
+                                r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                            RegExp regex = new RegExp(pattern);
+                            setState(() {
+                              _emailValidator = regex.hasMatch(val);
+                            });
+
+                            print(regex.hasMatch(val));
+                            print(val);
+                          }
                         },
                         style: TextStyle(
                             color: Colors.grey, fontWeight: FontWeight.w500),

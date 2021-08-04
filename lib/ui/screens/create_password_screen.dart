@@ -16,6 +16,9 @@ class CreatePaswordScreen extends StatefulWidget {
 class _CreatePaswordScreenState extends State<CreatePaswordScreen> {
   TextEditingController passwordController = TextEditingController();
   bool hide = true;
+  int count = 0;
+  List complexity = ["", "Very Weak", "Weak", "Strong", "Very Strong"];
+  int complexLevel = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +59,25 @@ class _CreatePaswordScreenState extends State<CreatePaswordScreen> {
                 controller: passwordController,
                 keyboardType: TextInputType.text,
                 obscureText: hide,
+                onChanged: (value) {
+                  int counter = 0;
+                  if (value.length > 4) {
+                    if (value.length >= 9) {
+                      counter++;
+                    }
+                    if (value.contains(RegExp(r"[0-9]"))) {
+                      counter++;
+                    }
+                    if (RegExp(r"(?=.*[a-z])(?=.*[A-Z])\w+").hasMatch(value)) {
+                      counter += 2;
+                    }
+                  }
+
+                  setState(() {
+                    complexLevel = counter;
+                  });
+                  print(complexLevel);
+                },
                 style:
                     TextStyle(color: Colors.grey, fontWeight: FontWeight.w500),
                 decoration: InputDecoration(
@@ -85,7 +107,8 @@ class _CreatePaswordScreenState extends State<CreatePaswordScreen> {
                     text: "Complexity : ",
                     style: white_normal_14,
                     children: [
-                  TextSpan(text: "Very Weak", style: orange_600_14)
+                  TextSpan(
+                      text: "${complexity[complexLevel]}", style: complexLevel > 2 ? green_600_14 : orange_600_14)
                 ])),
             SizedBox(height: 60),
             Row(
@@ -125,8 +148,8 @@ class _CreatePaswordScreenState extends State<CreatePaswordScreen> {
             width: size.width,
             title: "Next",
             onClick: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => PersonalInformationScreen()));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => PersonalInformationScreen()));
             }),
       ),
     );
