@@ -22,6 +22,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
   String choosedIncome = "0";
   String choosedExpense = "0";
   FocusNode goalNode = new FocusNode();
+  bool valid = false;
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +68,9 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
                 onChanged: (value) {
                   setState(() {
                     _goalValidator = value.length != 0;
+                    valid = _goalValidator &&
+                        choosedExpense != "0" &&
+                        choosedIncome != "0";
                   });
                 },
                 style:
@@ -74,7 +78,8 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
                 decoration: InputDecoration(
                     focusColor: custom_blue,
                     labelText: "Goal for activation",
-                    labelStyle: TextStyle(color: goalNode.hasFocus ? custom_blue : Colors.grey),
+                    labelStyle: TextStyle(
+                        color: goalNode.hasFocus ? custom_blue : Colors.grey),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                     contentPadding: EdgeInsets.only(right: 8, left: 8, top: 10),
                     focusedBorder:
@@ -123,6 +128,9 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
                 onChanged: (value) {
                   setState(() {
                     choosedIncome = value.toString();
+                    valid = _goalValidator &&
+                        choosedExpense != "0" &&
+                        choosedIncome != "0";
                   });
                 },
               ),
@@ -171,24 +179,28 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
                 onChanged: (value) {
                   setState(() {
                     choosedExpense = value.toString();
+                    valid = _goalValidator &&
+                        choosedExpense != "0" &&
+                        choosedIncome != "0";
                   });
                 },
               ),
-            ), 
+            ),
           ],
         ),
       ),
       bottomNavigationBar: Container(
         padding: EdgeInsets.only(bottom: 40, right: 20, left: 20),
         child: LongButton(
-            bgColor: custom_blue_disable,
+            bgColor: valid ? custom_blue_disable : custom_blue,
             textColor: Colors.white,
             loading: false,
             width: size.width,
             title: "Next",
             onClick: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => ScheduleScreen()));
+              if (valid)
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => ScheduleScreen()));
             }),
       ),
     );
