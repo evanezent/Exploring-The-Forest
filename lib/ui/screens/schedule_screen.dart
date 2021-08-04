@@ -46,8 +46,8 @@ class _ScheduleScreenState extends State<ScheduleScreen>
           decoration: BoxDecoration(
             gradient: RadialGradient(
               colors: <Color>[
-                custom_blue,
-                Color.lerp(custom_blue, Colors.black, .05)!
+                Color.lerp(Colors.white, custom_blue_disable, 0.6)!,
+                Colors.white,
               ],
             ),
           ),
@@ -58,9 +58,14 @@ class _ScheduleScreenState extends State<ScheduleScreen>
                   curve: CurveWave(),
                 ),
               ),
-              child: Icon(
-                Icons.speaker_phone,
-                size: 44,
+              child: Container(
+                padding:EdgeInsets.all(2),
+                color: Colors.white,
+                child: Icon(
+                  Icons.calendar_today_sharp,
+                  color: custom_blue,
+                  size: 30,
+                ),
               )),
         ),
       ),
@@ -100,7 +105,7 @@ class _ScheduleScreenState extends State<ScheduleScreen>
                 child: CustomPaint(
               painter: CirclePainter(
                 _animationController,
-                color: custom_blue,
+                color: Colors.white,
               ),
               child: SizedBox(
                 width: 100,
