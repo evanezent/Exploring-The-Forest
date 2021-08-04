@@ -36,7 +36,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                 height: size.height - size.height * 0.33,
                 padding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                child: Column( 
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -66,6 +66,14 @@ class _WelcomScreenState extends State<WelcomScreen> {
                       child: TextFormField(
                         controller: emailController,
                         keyboardType: TextInputType.emailAddress,
+                        validator: (String? val) {
+                          String pattern =
+                              r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                          RegExp regex = new RegExp(pattern);
+                          setState(() {
+                            _emailValidator = regex.hasMatch(val!);
+                          });
+                        },
                         onChanged: (value) {
                           setState(() {
                             _emailValidator = value.length != 0;
@@ -105,8 +113,9 @@ class _WelcomScreenState extends State<WelcomScreen> {
             width: size.width,
             title: "Next",
             onClick: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => CreatePaswordScreen()));
+              if (_emailValidator)
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => CreatePaswordScreen()));
             }),
       ),
     );
