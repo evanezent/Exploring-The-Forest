@@ -27,6 +27,7 @@ class _ScheduleScreenState extends State<ScheduleScreen>
   late Animation<double> _pulseAnimation;
 
   DateTime selectedDate = DateTime.now();
+  TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
 
   String choosedDate = "- Choosed Date -";
   String choosedTime = "- Choosed Time -";
@@ -59,44 +60,6 @@ class _ScheduleScreenState extends State<ScheduleScreen>
     _animationController.dispose();
     _iconController.dispose();
     super.dispose();
-  }
-
-  Widget rippleComponents(Animation<double> pulse) {
-    return Center(
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(100),
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: RadialGradient(
-              colors: <Color>[
-                Color.lerp(Colors.white, custom_blue_disable, 0.6)!,
-                Colors.white,
-              ],
-            ),
-          ),
-          child: ScaleTransition(
-            scale: Tween(begin: 0.95, end: 1.0).animate(
-              CurvedAnimation(
-                parent: _animationController,
-                curve: CurveWave(),
-              ),
-            ),
-            child: ScaleTransition(
-              scale: _pulseAnimation,
-              child: Container(
-                padding: EdgeInsets.all(2),
-                color: Colors.white,
-                child: Icon(
-                  Icons.calendar_today_sharp,
-                  color: custom_blue,
-                  size: 30,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
   }
 
   @override
@@ -247,18 +210,35 @@ class _ScheduleScreenState extends State<ScheduleScreen>
 
   /// Android date picker
   buildMaterialDatePicker(BuildContext context, {String type = "date"}) async {
-    DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(2021),
-      lastDate: DateTime(2500),
-    );
-    if (picked != null && picked != selectedDate)
-      setState(() {
-        selectedDate = picked;
-        choosedDate =
-            "${selectedDate.day} - ${selectedDate.month} - ${selectedDate.year}";
-      });
+    if (type == "date") {
+      DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2021),
+        lastDate: DateTime(2500),
+      );
+      if (picked != null && picked != selectedDate)
+        setState(() {
+          selectedDate = picked;
+          choosedDate =
+              "${selectedDate.day} - ${selectedDate.month} - ${selectedDate.year}";
+        });
+    } else {
+      TimeOfDay? picked = await showTimePicker(
+        context: context,
+        initialTime: selectedTime,
+      );
+      if (picked != null)
+        setState(() {
+          selectedTime = picked;
+          String hour = picked.hour < 10 ? "0${picked.hour}" : "${picked.hour}";
+          String min =
+              picked.minute < 10 ? "0${picked.minute}" : "${picked.minute}";
+          setState(() {
+            choosedTime = "$hour:$min";
+          });
+        });
+    }
   }
 
   /// iOS date picker
@@ -272,7 +252,7 @@ class _ScheduleScreenState extends State<ScheduleScreen>
             child: type == "time"
                 ? CupertinoDatePicker(
                     mode: CupertinoDatePickerMode.time,
-                    onDateTimeChanged: (picked) { 
+                    onDateTimeChanged: (picked) {
                       if (picked != selectedDate) {
                         String hour = picked.hour < 10
                             ? "0${picked.hour}"
@@ -281,7 +261,6 @@ class _ScheduleScreenState extends State<ScheduleScreen>
                             ? "0${picked.minute}"
                             : "${picked.minute}";
                         setState(() {
-                          selectedDate = picked;
                           choosedTime = "$hour:$min";
                         });
                       }
@@ -306,5 +285,43 @@ class _ScheduleScreenState extends State<ScheduleScreen>
                   ),
           );
         });
+  }
+
+  Widget rippleComponents(Animation<double> pulse) {
+    return Center(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(100),
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: RadialGradient(
+              colors: <Color>[
+                Color.lerp(Colors.white, custom_blue_disable, 0.6)!,
+                Colors.white,
+              ],
+            ),
+          ),
+          child: ScaleTransition(
+            scale: Tween(begin: 0.95, end: 1.0).animate(
+              CurvedAnimation(
+                parent: _animationController,
+                curve: CurveWave(),
+              ),
+            ),
+            child: ScaleTransition(
+              scale: _pulseAnimation,
+              child: Container(
+                padding: EdgeInsets.all(2),
+                color: Colors.white,
+                child: Icon(
+                  Icons.calendar_today_sharp,
+                  color: custom_blue,
+                  size: 30,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

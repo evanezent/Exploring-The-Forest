@@ -60,33 +60,7 @@ class _CreatePaswordScreenState extends State<CreatePaswordScreen> {
                 controller: passwordController,
                 keyboardType: TextInputType.text,
                 obscureText: hide,
-                onChanged: (value) {
-                  int counter = 0;
-                  List index = [false, false, false, false];
-                  if (value.length > 4) {
-                    if (value.length >= 9) {
-                      index[3] = true;
-                      counter++;
-                    }
-                    if (value.contains(RegExp(r"[0-9]"))) {
-                      index[2] = true;
-                      counter++;
-                    }
-                    if (RegExp(r"[A-Z]").hasMatch(value)) {
-                      index[1] = true;
-                      counter++;
-                    }
-                    if (RegExp(r"[a-z]").hasMatch(value)) {
-                      index[0] = true;
-                      counter++;
-                    }
-                  }
-
-                  setState(() {
-                    indexComplexity = index;
-                    complexLevel = counter;
-                  });
-                },
+                onChanged: validatePassword,
                 style:
                     TextStyle(color: Colors.grey, fontWeight: FontWeight.w500),
                 decoration: InputDecoration(
@@ -164,5 +138,33 @@ class _CreatePaswordScreenState extends State<CreatePaswordScreen> {
             }),
       ),
     );
+  }
+
+  void validatePassword(value) {
+    int counter = 0;
+    List index = [false, false, false, false];
+    if (value.length > 4) {
+      if (value.length >= 9) {
+        index[3] = true;
+        counter++;
+      }
+      if (value.contains(RegExp(r"[0-9]"))) {
+        index[2] = true;
+        counter++;
+      }
+      if (RegExp(r"[A-Z]").hasMatch(value)) {
+        index[1] = true;
+        counter++;
+      }
+      if (RegExp(r"[a-z]").hasMatch(value)) {
+        index[0] = true;
+        counter++;
+      }
+    }
+
+    setState(() {
+      indexComplexity = index;
+      complexLevel = counter;
+    });
   }
 }
