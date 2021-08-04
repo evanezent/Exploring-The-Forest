@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:register/ui/components/circle-ripple.dart';
 import 'package:register/ui/components/circle-timeline.dart';
@@ -25,6 +26,12 @@ class _ScheduleScreenState extends State<ScheduleScreen>
   late AnimationController _iconController;
   late Animation<double> _pulseAnimation;
 
+  DateTime selectedDate = DateTime.now();
+  TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
+
+  String choosedDate = "- Choosed Date -";
+  String choosedTime = "- Choosed Time -";
+
   @override
   void initState() {
     super.initState();
@@ -34,8 +41,8 @@ class _ScheduleScreenState extends State<ScheduleScreen>
       vsync: this,
     )..repeat();
 
-    _iconController =
-        AnimationController(vsync: this, duration: const Duration(milliseconds: 1500));
+    _iconController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 1500));
     _iconController.forward();
 
     _pulseAnimation = Tween<double>(begin: 0.8, end: 1).animate(
@@ -53,44 +60,6 @@ class _ScheduleScreenState extends State<ScheduleScreen>
     _animationController.dispose();
     _iconController.dispose();
     super.dispose();
-  }
-
-  Widget rippleComponents(Animation<double> pulse) {
-    return  Center(
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(100),
-          child: Container( 
-            decoration: BoxDecoration(
-              gradient: RadialGradient(
-                colors: <Color>[
-                  Color.lerp(Colors.white, custom_blue_disable, 0.6)!,
-                  Colors.white,
-                ],
-              ),
-            ),
-            child: ScaleTransition(
-              scale: Tween(begin: 0.95, end: 1.0).animate(
-                CurvedAnimation(
-                  parent: _animationController,
-                  curve: CurveWave(),
-                ),
-              ),
-              child: ScaleTransition(
-                scale: _pulseAnimation,
-                child: Container(
-                  padding: EdgeInsets.all(2),
-                  color: Colors.white,
-                  child: Icon(
-                    Icons.calendar_today_sharp,
-                    color: custom_blue,
-                    size: 30,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ), 
-    );
   }
 
   @override
@@ -119,7 +88,7 @@ class _ScheduleScreenState extends State<ScheduleScreen>
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Center(   
+                Center(
                   child: CustomPaint(
                     painter: CirclePainter(
                       _animationController,
@@ -133,103 +102,76 @@ class _ScheduleScreenState extends State<ScheduleScreen>
                   ),
                 ),
               ],
-            ), 
+            ),
             Text("Schedule Video Call", style: white_800_20),
             SizedBox(height: 6),
             Text(
                 "Choose the date and time you preferred, we will send a link via email to make a video call on the scheduled date and time.",
                 style: white_normal_14),
             SizedBox(height: 30),
-            Container(
-              height: 50,
-              margin: EdgeInsets.only(top: 20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: DropdownButtonFormField(
-                decoration: InputDecoration(
-                    contentPadding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-                    enabledBorder:
-                        UnderlineInputBorder(borderSide: BorderSide.none),
-                    labelStyle: TextStyle(),
-                    labelText: 'Monthly Income'),
-                items: [
-                  DropdownMenuItem(
-                    child: new Text("- Choose Option -"),
-                    value: "0",
-                  ),
-                  DropdownMenuItem(
-                    child: new Text("< 1.000.000"),
-                    value: "1",
-                  ),
-                  DropdownMenuItem(
-                    child: new Text("1.000.000 - 3.000.000"),
-                    value: "2",
-                  ),
-                  DropdownMenuItem(
-                    child: new Text("3.000.001 - 8.000.000"),
-                    value: "3",
-                  ),
-                  DropdownMenuItem(
-                    child: new Text("> 8.000.000"),
-                    value: "4",
-                  ),
-                ],
-                value: choosedIncome,
-                onChanged: (value) {
-                  setState(() {
-                    choosedIncome = value.toString();
-                  });
-                },
+            InkWell(
+              splashColor: Colors.transparent,
+              onTap: () {
+                selectDate(context);
+              },
+              child: Container(
+                height: 50,
+                margin: EdgeInsets.only(top: 20),
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Date",
+                      style: grey_normal_12,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "$choosedDate",
+                          style: black_semi_16,
+                        ),
+                        Icon(Icons.arrow_drop_down, color: Colors.grey)
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
-            Container(
-              height: 50,
-              margin: EdgeInsets.only(top: 20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: DropdownButtonFormField(
-                decoration: InputDecoration(
-                    contentPadding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-                    enabledBorder:
-                        UnderlineInputBorder(borderSide: BorderSide.none),
-                    labelStyle: TextStyle(),
-                    labelText: 'Monthly Expense'),
-                items: [
-                  DropdownMenuItem(
-                    child: new Text("- Choose Option -"),
-                    value: "0",
-                  ),
-                  DropdownMenuItem(
-                    child: new Text("< 500.000"),
-                    value: "1",
-                  ),
-                  DropdownMenuItem(
-                    child: new Text("500.000 - 2.000.000"),
-                    value: "2",
-                  ),
-                  DropdownMenuItem(
-                    child: new Text("2.000.001 - 5.000.000"),
-                    value: "3",
-                  ),
-                  DropdownMenuItem(
-                    child: new Text("5.000.001 - 8.000.000"),
-                    value: "4",
-                  ),
-                  DropdownMenuItem(
-                    child: new Text("> 8.000.000"),
-                    value: "5",
-                  ),
-                ],
-                value: choosedExpense,
-                onChanged: (value) {
-                  setState(() {
-                    choosedExpense = value.toString();
-                  });
-                },
+            InkWell(
+              onTap: () => selectDate(context, type: "time"),
+              child: Container(
+                height: 50,
+                margin: EdgeInsets.only(top: 20),
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Time",
+                      style: grey_normal_12,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "$choosedTime",
+                          style: black_semi_16,
+                        ),
+                        Icon(Icons.arrow_drop_down, color: Colors.grey)
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
           ],
@@ -247,6 +189,138 @@ class _ScheduleScreenState extends State<ScheduleScreen>
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => ScheduleScreen()));
             }),
+      ),
+    );
+  }
+
+  // select date function
+  void selectDate(BuildContext context, {String type = "date"}) async {
+    final ThemeData theme = Theme.of(context);
+    switch (theme.platform) {
+      case TargetPlatform.android:
+      case TargetPlatform.fuchsia:
+      case TargetPlatform.linux:
+      case TargetPlatform.windows:
+        return buildMaterialDatePicker(context, type: type);
+      case TargetPlatform.iOS:
+      case TargetPlatform.macOS:
+        return buildCupertinoDatePicker(context, type: type);
+    }
+  }
+
+  /// Android date picker
+  buildMaterialDatePicker(BuildContext context, {String type = "date"}) async {
+    if (type == "date") {
+      DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2021),
+        lastDate: DateTime(2500),
+      );
+      if (picked != null && picked != selectedDate)
+        setState(() {
+          selectedDate = picked;
+          choosedDate =
+              "${selectedDate.day} - ${selectedDate.month} - ${selectedDate.year}";
+        });
+    } else {
+      TimeOfDay? picked = await showTimePicker(
+        context: context,
+        initialTime: selectedTime,
+      );
+      if (picked != null)
+        setState(() {
+          selectedTime = picked;
+          String hour = picked.hour < 10 ? "0${picked.hour}" : "${picked.hour}";
+          String min =
+              picked.minute < 10 ? "0${picked.minute}" : "${picked.minute}";
+          setState(() {
+            choosedTime = "$hour:$min";
+          });
+        });
+    }
+  }
+
+  /// iOS date picker
+  buildCupertinoDatePicker(BuildContext context, {String type = "date"}) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext builder) {
+          return Container(
+            height: MediaQuery.of(context).copyWith().size.height / 3,
+            color: Colors.white,
+            child: type == "time"
+                ? CupertinoDatePicker(
+                    mode: CupertinoDatePickerMode.time,
+                    onDateTimeChanged: (picked) {
+                      if (picked != selectedDate) {
+                        String hour = picked.hour < 10
+                            ? "0${picked.hour}"
+                            : "${picked.hour}";
+                        String min = picked.minute < 10
+                            ? "0${picked.minute}"
+                            : "${picked.minute}";
+                        setState(() {
+                          choosedTime = "$hour:$min";
+                        });
+                      }
+                    },
+                    initialDateTime: selectedDate,
+                    minimumYear: 2021,
+                    maximumYear: 2500,
+                  )
+                : CupertinoDatePicker(
+                    mode: CupertinoDatePickerMode.date,
+                    onDateTimeChanged: (picked) {
+                      if (picked != selectedDate)
+                        setState(() {
+                          selectedDate = picked;
+                          choosedDate =
+                              "${selectedDate.day} - ${selectedDate.month} - ${selectedDate.year}";
+                        });
+                    },
+                    initialDateTime: selectedDate,
+                    minimumYear: 2021,
+                    maximumYear: 2500,
+                  ),
+          );
+        });
+  }
+
+  Widget rippleComponents(Animation<double> pulse) {
+    return Center(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(100),
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: RadialGradient(
+              colors: <Color>[
+                Color.lerp(Colors.white, custom_blue_disable, 0.6)!,
+                Colors.white,
+              ],
+            ),
+          ),
+          child: ScaleTransition(
+            scale: Tween(begin: 0.95, end: 1.0).animate(
+              CurvedAnimation(
+                parent: _animationController,
+                curve: CurveWave(),
+              ),
+            ),
+            child: ScaleTransition(
+              scale: _pulseAnimation,
+              child: Container(
+                padding: EdgeInsets.all(2),
+                color: Colors.white,
+                child: Icon(
+                  Icons.calendar_today_sharp,
+                  color: custom_blue,
+                  size: 30,
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
