@@ -152,7 +152,7 @@ class _CreatePaswordScreenState extends State<CreatePaswordScreen> {
       bottomNavigationBar: Container(
         padding: EdgeInsets.only(bottom: 40, right: 20, left: 20),
         child: LongButton(
-            bgColor: complexLevel > 2 ?custom_blue_disable:custom_gray,
+            bgColor: complexLevel > 2 ? custom_blue_disable : custom_blue,
             textColor: Colors.white,
             loading: false,
             width: size.width,
