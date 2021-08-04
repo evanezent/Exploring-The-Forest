@@ -3,7 +3,7 @@ import 'package:register/ui/components/circle-timeline.dart';
 import 'package:register/ui/components/long_button.dart';
 import 'package:register/ui/components/password-requirement.dart';
 import 'package:register/ui/components/timeline.dart';
-import 'package:register/ui/screens/personal_info.dart';
+import 'package:register/ui/screens/personal_info_screen.dart';
 import 'package:register/utils/constants.dart';
 
 class CreatePaswordScreen extends StatefulWidget {
