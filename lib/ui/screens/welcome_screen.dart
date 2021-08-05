@@ -19,6 +19,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: custom_blue,
       body: Stack(
         children: [

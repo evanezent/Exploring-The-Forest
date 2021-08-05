@@ -34,8 +34,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
         centerTitle: false,
         title: Text(
           "Personal Information",
-          style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+          style: white_800_20,
         ),
       ),
       backgroundColor: custom_blue,

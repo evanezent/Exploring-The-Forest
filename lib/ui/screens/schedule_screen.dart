@@ -6,6 +6,7 @@ import 'package:register/ui/components/curve-wave.dart';
 import 'package:register/ui/components/long_button.dart';
 import 'package:register/ui/components/password-requirement.dart';
 import 'package:register/ui/components/timeline.dart';
+import 'package:register/ui/screens/success_screen.dart';
 import 'package:register/utils/constants.dart';
 
 class ScheduleScreen extends StatefulWidget {
@@ -31,6 +32,8 @@ class _ScheduleScreenState extends State<ScheduleScreen>
 
   String choosedDate = "- Choosed Date -";
   String choosedTime = "- Choosed Time -";
+
+  bool valid = false;
 
   @override
   void initState() {
@@ -180,14 +183,15 @@ class _ScheduleScreenState extends State<ScheduleScreen>
       bottomNavigationBar: Container(
         padding: EdgeInsets.only(bottom: 40, right: 20, left: 20),
         child: LongButton(
-            bgColor: custom_blue_disable,
+            bgColor: valid ? custom_blue_disable : custom_blue,
             textColor: Colors.white,
             loading: false,
             width: size.width,
             title: "Next",
             onClick: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => ScheduleScreen()));
+              if (valid)
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => SuccessScreen()));
             }),
       ),
     );
@@ -222,6 +226,8 @@ class _ScheduleScreenState extends State<ScheduleScreen>
           selectedDate = picked;
           choosedDate =
               "${selectedDate.day} - ${selectedDate.month} - ${selectedDate.year}";
+          valid = choosedTime != "- Choosed Time -" &&
+              choosedDate != "- Choosed Date -";
         });
     } else {
       TimeOfDay? picked = await showTimePicker(
@@ -236,6 +242,8 @@ class _ScheduleScreenState extends State<ScheduleScreen>
               picked.minute < 10 ? "0${picked.minute}" : "${picked.minute}";
           setState(() {
             choosedTime = "$hour:$min";
+            valid = choosedTime != "- Choosed Time -" &&
+                choosedDate != "- Choosed Date -";
           });
         });
     }
@@ -262,6 +270,8 @@ class _ScheduleScreenState extends State<ScheduleScreen>
                             : "${picked.minute}";
                         setState(() {
                           choosedTime = "$hour:$min";
+                          valid = choosedTime != "- Choosed Time -" &&
+                              choosedDate != "- Choosed Date -";
                         });
                       }
                     },
@@ -277,6 +287,8 @@ class _ScheduleScreenState extends State<ScheduleScreen>
                           selectedDate = picked;
                           choosedDate =
                               "${selectedDate.day} - ${selectedDate.month} - ${selectedDate.year}";
+                          valid = choosedTime != "- Choosed Time -" &&
+                              choosedDate != "- Choosed Date -";
                         });
                     },
                     initialDateTime: selectedDate,
